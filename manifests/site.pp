@@ -40,6 +40,8 @@ ini_setting { 'random ordering':
 
 node throwawaylbeatty.puppetlabs.vm {
   include users
+  
+  include skeleton
 }
 
 node default {
