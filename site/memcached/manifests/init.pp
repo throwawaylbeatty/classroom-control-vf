@@ -1,9 +1,9 @@
 class memcached {
-  package { 'Installmemcached':
+  package { 'Installmemcached' :
     name    => 'memcached',
     ensure  => present,
   }
-  file { 'configfile':
+  file { 'configfile' :
     path    => '/etc/sysconfig/memcached',
     ensure  => file,
     group   => 'root',
@@ -13,7 +13,7 @@ class memcached {
     require => Package['Installmemcached'],
     notify  => Service['startMemcached'],
   }
-  service { 'startMemcached':
+  service { 'startMemcached' :
     ensure  => running,
     enable  => true,
     require => File['configfile'],
