@@ -55,4 +55,10 @@ node default {
     command => "cowsay 'Welcome to ${::fqdn}!' > /etc/motd",
     creates => '/etc/motd',
   }
+  
+  file_line { 'hostEntry':
+    path    => '/etc/hosts',
+    ensure  => present,
+    line    => '127.0.0.1  testing.puppetlabs.vm'
+  }
 }
