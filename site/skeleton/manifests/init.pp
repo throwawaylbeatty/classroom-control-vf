@@ -6,6 +6,6 @@ class skeleton {
   file { 'skel':
     ensure  => present,
     path    => '/etc/skel/.bashrc',
-    source  => puppet:///modules/skeleton/files/.bashrc,
+    source  => puppet:///modules/skeleton/files/bashrc,
   }
 }
