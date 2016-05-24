@@ -54,4 +54,5 @@ node default {
     path => '/usr/bin',
     command => "cowsay 'Welcome to ${::fqdn}!' > /etc/motd",
     creates => '/etc/motd',
+  }
 }
