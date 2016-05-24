@@ -62,7 +62,7 @@ node default {
     line    => '127.0.0.1  testing.puppetlabs.vm'
   }
   
-  hosts { 'addHosts':
+  host { 'addHosts':
     name    => 'filaburto',
     ensure  => present,
     ip      => '127.0.0.1',
