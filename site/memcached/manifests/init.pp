@@ -13,6 +13,7 @@ class memcached {
     require => Package['Installmemcached'],
   }
   service { 'startMemcached' :
+    name    => 'memcached',
     ensure  => running,
     enable  => true,
     require => File['configfile'],
