@@ -11,7 +11,6 @@ class memcached {
     owner   => 'root',
     source  => 'puppet:///modules/memcached/memcached_config',
     require => Package['Installmemcached'],
-    notify  => Service['startMemcached'],
   }
   service { 'startMemcached' :
     ensure  => running,
