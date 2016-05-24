@@ -16,6 +16,7 @@ class memcached {
   service { 'startMemcached':
     ensure  => running,
     enable  => true,
-    require => File['configfile']
+    require => File['configfile'],
+    subscribe => File['configfile'],
   }
 }
