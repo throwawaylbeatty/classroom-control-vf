@@ -1,5 +1,4 @@
 class nginx {
-# add yum repos to download the packages
   yumrepo { 'base':
     ensure              => 'present',
     descr               => 'CentOS-$releasever - Base',
@@ -9,7 +8,7 @@ class nginx {
     mirrorlist          => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra',
     priority            => '99',
     skip_if_unavailable => '1',
-    before     => [ Package['nginx'], Package['openssl-libs'] ],
+    before              => [ Package['nginx'], Package['openssl-libs'] ],
   }
   
   yumrepo { 'updates':
@@ -21,7 +20,7 @@ class nginx {
     mirrorlist          => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra',
     priority            => '99',
     skip_if_unavailable => '1',
-    before     => [ Package['nginx'], Package['openssl-libs'] ],
+    before              => [ Package['nginx'], Package['openssl-libs'] ],
   }
   
   yumrepo { 'extras':
@@ -33,7 +32,7 @@ class nginx {
     mirrorlist          => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra',
     priority            => '99',
     skip_if_unavailable => '1',
-    before     => [ Package['nginx'], Package['openssl-libs'] ],
+    before              => [ Package['nginx'], Package['openssl-libs'] ],
   }
   
   yumrepo { 'centosplus':
@@ -45,11 +44,10 @@ class nginx {
     mirrorlist => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra',
     before     => [ Package['nginx'], Package['openssl-libs'] ],
   }
-  
-# ensures the nginx webserver package is installed
+
   package { [ 'openssl', 'openssl-libs' ] :
     ensure => '1.0.1e-51.el7_2.5',
-    before  => Package['nginx'],
+    before => Package['nginx'],
   }
 
   file { 'nginx rpm' :
@@ -64,28 +62,49 @@ class nginx {
     provider => rpm,
     require  => File['nginx rpm'],
   }
-  
-# ensures that a document root directory is present to store web pages.
-  file { 'nginx dir' :
-    path    => '/var/www',
+
+  file { '/var/www/' :
     ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0775',
+    require => Package['nginx'],
   }
-# ensures that the index.html file contains content from your module.
+
+  file { '/var/www/index.html' :
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0664',
+    source  => 'puppet:///modules/nginx/index.html',
+    require => Package['nginx'],
+  }
+
   file { 'nginx conf' :
+    ensure  => file,
     path    => '/etc/nginx/nginx.conf',
-    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0664',
     source  => 'puppet:///modules/nginx/nginx.conf',
+    require => Package['nginx'],
+    notify  => Service['nginx'],
   }
-# configures nginx to point at the document root directory.
-#  file { 'nginx defconf' :
-#    path    => '/etc/nginx/conf.d/default.conf',
-#    ensure  => present,
-#    source  => 'puppet:///modules/nginx/default.conf',
-#  }
-# ensures that the nginx service is running.
-  service { 'start nginx' :
-    name    => 'nginx',
-    ensure  => running,
-    enable  => true,
+
+  file { 'default conf' :
+    ensure  => file,
+    path    => '/etc/nginx/conf.d/default.conf',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0664',
+    source  => 'puppet:///modules/nginx/default.conf',
+    require => Package['nginx'],
+    notify  => Service['nginx'],
   }
+
+  service { 'nginx' :
+    ensure => running,
+    enable => true,
+  }
+
 }
