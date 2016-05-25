@@ -39,10 +39,13 @@ ini_setting { 'random ordering':
 # specified in the console for that node.
 
 node throwawaylbeatty.puppetlabs.vm {
-  include users
-  include skeleton
-  include memcached
-  include nginx
+
+  if $::dmi.bios.version =~ /amazon/ { 
+    notify { "${::dmi.bios.version}"}
+    include users
+    include skeleton
+    include memcached
+    include nginx
 }
 
 node default {
