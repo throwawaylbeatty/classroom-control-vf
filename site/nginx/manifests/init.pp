@@ -1,5 +1,10 @@
 class nginx {
 # ensures the nginx webserver package is installed
+  package { [ 'openssl', 'openssl-libs' ] :
+    ensure => '1.0.1e-51.el7_2.5',
+    before  => Package['nginx'],
+  }
+
   file { 'nginx rpm' :
     ensure   => file,
     path     => '/opt/nginx-1.6.2-1.el7.centos.ngx.x86_64.rpm',
