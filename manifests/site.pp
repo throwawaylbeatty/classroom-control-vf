@@ -46,6 +46,7 @@ node throwawaylbeatty.puppetlabs.vm {
     include skeleton
     include memcached
     include nginx
+  }
 }
 
 node default {
