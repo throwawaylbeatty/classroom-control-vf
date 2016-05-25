@@ -21,7 +21,7 @@ class nginx {
     }
   }
 
-  $runas_user = $::osfamily ? {
+  $user = $::osfamily ? {
     'redhat'  => 'nginx',
     'debian'  => 'www-data',
     'windows' => 'nobody',
