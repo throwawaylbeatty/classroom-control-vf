@@ -77,11 +77,11 @@ class nginx {
     source  => 'puppet:///modules/nginx/nginx.conf',
   }
 # configures nginx to point at the document root directory.
-  file { 'nginx defconf' :
-    path    => '/etc/nginx/conf.d/default.conf',
-    ensure  => present,
-    source  => 'puppet:///modules/nginx/default.conf',
-  }
+#  file { 'nginx defconf' :
+#    path    => '/etc/nginx/conf.d/default.conf',
+#    ensure  => present,
+#    source  => 'puppet:///modules/nginx/default.conf',
+#  }
 # ensures that the nginx service is running.
   service { 'start nginx' :
     name    => 'nginx',
