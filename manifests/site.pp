@@ -40,13 +40,15 @@ ini_setting { 'random ordering':
 
 node throwawaylbeatty.puppetlabs.vm {
 
-  if $::dmi.bios.version =~ /amazon/ { 
-    notify { "${::dmi.bios.version}"}
-    include users
-    include skeleton
-    include memcached
-    include nginx
+  if $::virtual != 'physical' { 
+    $vmname = capitalize($::virtual)
+    notify { "This is a ${vmname} virtual machine/container" : }
   }
+  
+  include users
+  include skeleton
+  include memcached
+  include nginx
 }
 
 node default {
