@@ -1,25 +1,11 @@
-class nginx {
-  case $::osfamily {
-    'redhat','debian': {
-      $package = 'nginx'
-      $owner   = 'root'
-      $group   = 'root'
-      $docroot = '/var/www'
-      $confdir = '/etc/nginx'
-      $logdir  = '/var/log/nginx'
-    }
-    'windows': {
-      $package = 'nginx-service'
-      $owner   = 'Administrator'
-      $group   = 'Administrators'
-      $docroot = 'C:/ProgramData/nginx/html'
-      $confdir = 'C:/ProgramData/nginx'
-      $logdir  = 'C:/ProgramData/nginx/logs'
-    }
-    default : {
-      fail("Module ${module_name} is not intended to run on ${::osfamily}")
-    }
-  }
+class nginx (
+  $package = $nginx::params::$package
+  $owner   = $nginx::params::$owner
+  $group   = $nginx::params::$group
+  $docroot = $nginx::params::$docroot
+  $confdir = $nginx::params::$confdir
+  $logdir  = $nginx::params::$logdir
+) inherits nginx::params {
 
   $user = $::osfamily ? {
     'redhat'  => 'nginx',
