@@ -45,7 +45,7 @@ node throwawaylbeatty.puppetlabs.vm {
     notify { "This is a ${vmname} virtual machine/container" : }
   }
   
-  notify { hiera('message') }
+  notify { hiera('message') : }
   
   include users
   include skeleton
